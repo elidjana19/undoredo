@@ -1,0 +1,29 @@
+Krijoj nje container per te pozicionuar divin qe do i ndryshohet ngjyra dhe 3 butonat.
+NE css i pozicionoj dhe stilizoj keto elemente.
+
+JS:
+Aksesoj elementet e HTML me querySelector()
+krijoj nje funksion getRandomColor() i cili gjeneron ngjyra random 
+
+Ne momentin qe ndryshoj ngjyren duke klikuar butonin "change Color" duhet qe ngjyren previous ta ruaj tek array undo.
+Prandaj si fillim une ruaj ngjyren e divit tek prevColor dhe e shtoj ate tek undo, nese kam nje ngjyre previos, sepse nese une po e klikoj per here te pare
+"change Color" une nuk kam nje ngjyre previous.
+Meqe une ndryshova ngjyren "change Color" nuk mund te bej redo, prandaj e zbas redo array.
+Me pas therras getRandomColor() qe te marr nje ngjyre te re random dhe e vendos ate si background color. 
+
+Kur klikoj butonin undo, une duhet te kaloj tek ngjyrat prevoius ne rradhen qe ato ishin.
+Ngjyren aktuale nderkohe e ruaj tek redo array, sepse nese dua te kaloj tek ngjyra qe isha me duhet ky vektor.
+Ngjyrat previous i kam ruajtur tek undo array, qe ne momentin qe klikoj <= , bej pop() tek undo, pop() me jep ngjyren e fundit te ruajtur ne undo array dhe kete ngjyre e vendos si background color tek divi.
+
+
+Kur klikoj butonin redo, kontrolloj fillimisht nese kam elemente apo jo,
+sepse nese une kam klikuar vetem 1 here "change color" ath une nuk kam ngjyra tek redo, ngjyra tek redo[] kam nese eshte klikuar undo, sepse
+aty une mbush vektorin redo. Sepse redo me ruan ngjyrat qe behen hiqen nga background me undo.
+
+Pra nese une klikoj per here te pare "change Color" dhe ne div me vendoset e kuqe, si undo si redo jane bosh, nese klikoj perseri "change color" 
+ngjyra e kuqe me ruhet tek undo si ngjyre previous dhe nje ngjyre e re psh green me vendoset tek divi. 
+Nese klikoj butonin <= ngjyra aktuale green me ruhet tek redo array dhe ngjyra e kuqe me behet pop() nga undo dhe me vendoset si background color.
+Nese klikoj butonin => red e ruaj tek undo nese do me duhet per te bere undo perseri dhe bej pop nga redo[] ngjyren green dhe ate ngjyre e vendos si background color.
+
+
+
