@@ -1,29 +1,89 @@
-Krijoj nje container per te pozicionuar divin qe do i ndryshohet ngjyra dhe 3 butonat.
+Html: Krijoj nje container per te pozicionuar divin qe do i ndryshohet ngjyra dhe 3 butonat.
 NE css i pozicionoj dhe stilizoj keto elemente.
 
 JS:
 Aksesoj elementet e HTML me querySelector()
-krijoj nje funksion getRandomColor() i cili gjeneron ngjyra random 
+Krijoj nje funksion getRandomColor() i cili gjeneron ngjyra random per divin.
+Ne momentin qe do klikohet butoni "change Color" duhet te gjeneroj nje ngjyre random duke perdorur funksionin
+getRandomColor() dhe e vendos ate si background color per div-in.
 
-Ne momentin qe ndryshoj ngjyren duke klikuar butonin "change Color" duhet qe ngjyren previous ta ruaj tek array undo.
-Prandaj si fillim une ruaj ngjyren e divit tek prevColor dhe e shtoj ate tek undo, nese kam nje ngjyre previos, sepse nese une po e klikoj per here te pare
-"change Color" une nuk kam nje ngjyre previous.
-Meqe une ndryshova ngjyren "change Color" nuk mund te bej redo, prandaj e zbas redo array.
-Me pas therras getRandomColor() qe te marr nje ngjyre te re random dhe e vendos ate si background color. 
+Per te dhene mundesine qe te bejme undo dhe redo tek ngjyrat qe vendosen si background color tek divi, kam krijuar 2 metoda handleUndo() dhe handleRedo().
+Fillimisht merrem me eventin e klikimit te butonit "change color". Kontrolloj nese kam apo jo nje ngjyre previous ne background.
+Nese po, ate e shtoj edhe vektori undo qe do me ndihmoje te kthehem pas tek ngjyrat, sipas rradhitjes qe ato jane shtuar ne vektor, por gjithashtu duhet te kontrolloj nese vektori arrin max_limit,
+nese po une kam menduar te heq elementet me te vjeter nga vektori me shift() qe heq elemente nga fillimi i nje vektori.
+Gjithashtu brenda funksionit qe ekzekutohet kur butoni "change color" klikohet eshte dzbrazja e vektorit redo, pasi tani rradhitja e redo ndryshon
+dhe redo perfaqeson te kunderten e asaj qe ben undo.
+Gjithashtu kur te klikohet butoni getRandomColor() nje ngjyre random do gjenerohet e cila do te venoset si background color.
 
-Kur klikoj butonin undo, une duhet te kaloj tek ngjyrat prevoius ne rradhen qe ato ishin.
-Ngjyren aktuale nderkohe e ruaj tek redo array, sepse nese dua te kaloj tek ngjyra qe isha me duhet ky vektor.
-Ngjyrat previous i kam ruajtur tek undo array, qe ne momentin qe klikoj <= , bej pop() tek undo, pop() me jep ngjyren e fundit te ruajtur ne undo array dhe kete ngjyre e vendos si background color tek divi.
+Kam krijuar 2 event listener ne momentin qe klikohet butoni undo dhe butoni redo, respektivisht te ekzekutohet metoda handleUndo() dhe ajo handleUndo().
+
+handleUndo()
+Eshte funksioni i cili ben te mundur kthemin pas te ngjyrave ne menyren si ato jane gjeneruar, pra nese ngjyrat jane gjeneruar ne rradhen red blue green me undo une bej te mundur qe 
+backgroundcolor-i i divit te kthehet te ngjyrat e meparshme si blue e me pas red.
+fillimisht bej kontrollin e nr te elementeve ne vektor njesoj edhe si me lart. Ngjyren aktuale te divit e shtoj tek redo. Pasi do te me duhet per tu kthyer tek pozicioni aktual. Bej pop apo heq  elementin e fundit te shtuar ne undo dhe ate e vendos si background color.
+Pra nese eshte gjeneruar red, me pas blue, red si previos color eshte venosur tek undo[], kur eshte klikuar "change color btn"
+Dhe ngjyre aktuale eshte blue, edhe backgroundi ka po ate ngjyre, kur klikoj undo une dua te kthehem pas, por ngjyren blu me duhet ta ruaj tek redo, bej pop nga undo marr red dhe e vendos si background color.
 
 
-Kur klikoj butonin redo, kontrolloj fillimisht nese kam elemente apo jo,
-sepse nese une kam klikuar vetem 1 here "change color" ath une nuk kam ngjyra tek redo, ngjyra tek redo[] kam nese eshte klikuar undo, sepse
-aty une mbush vektorin redo. Sepse redo me ruan ngjyrat qe behen hiqen nga background me undo.
+handleRedo()
+Tani handleRedo() perdoret per tu kthyer tek pozicioni aktual, pasi u kthyem pas ne ngjyra, pra nese une klikoj "redo", ngjyra red qe e vendosa si background color me shtohet tek vektori undo, dhe ajo blu te cilen e ruajta tek redo[]
+e marr me pop dhe e vendos si background color duke u kthyer tek pozicioni qe isha.
 
-Pra nese une klikoj per here te pare "change Color" dhe ne div me vendoset e kuqe, si undo si redo jane bosh, nese klikoj perseri "change color" 
-ngjyra e kuqe me ruhet tek undo si ngjyre previous dhe nje ngjyre e re psh green me vendoset tek divi. 
-Nese klikoj butonin <= ngjyra aktuale green me ruhet tek redo array dhe ngjyra e kuqe me behet pop() nga undo dhe me vendoset si background color.
-Nese klikoj butonin => red e ruaj tek undo nese do me duhet per te bere undo perseri dhe bej pop nga redo[] ngjyren green dhe ate ngjyre e vendos si background color.
+UpdateArrays()
+Eshte metoda qe ben te mundur qe une te shfaq elementet e secilit array si undo dhe redo ne html.
+Duke perdorur funksionin map() te array, une iteroj mbi cdo element te vektorit dhe aplikoj funskionin callback te map, ne kete rast kam krijuar nje div i cili merr si background ngjyren qe ndodhet ne ate index.
+dhe rezultatin e afishoj ne 2 div-e te pavarura nje undo[] dhe nje per redo[].
+Por duke qene se ketu kemi 3 butona si undo, changeColor dhe redo, ngjyrat ndryshojne tek keto 3 metoda, prandaj metoden 
+updateArrays() une e therras tek keto 3 metoda ne menyre qe pas cdo ndryshimi dinamik tek ngjyrat ato te shfaqen ne menyren e duher ne hmtl.
+
+Funksionalitet tjeter eshte qe ngjyrat e afishuara ne 2 dive te mund te klikohen dhe te vendosen si background color te div-i
+duke ndjekur logjiken undo dhe redo.
+Marr me querySelectorAll() elementet e afishuar ne html per secilen kategori si undo dhe redo.
+querySelectorAll() kthen nje NodeList me elementet qe kane ate klase qe une i kam vendosur.
+Per secilin element nga undo zbatoj forEach() qe merr nje funksioin callback, te cilin e zbaton mbi cdo element te vektorit. 
+ketu une ruaj ngjyren aktuale te backgroundit, marr ngjyren ne indeksin qe klikohet ne html, dhe kete ngjyre e vendos si background color. Ngjyren qe ishte ne background e shtoj tek redo[]
+me push dhe e heq nga divi undo, ne menyre qe te mos afishohet me aty, por tek redo. Dhe ngjyrat poshte asaj te klikuar
+pasi i heq nga undo i shtoj ne redo.
+Sigurohem duke kryer prova qe te ruaj rradhen sesi ngjyrat u gjeneruan kur bej undo/redo apo klikim.
+Ne menyre te njejten veproj edhe per ngjyrat ne pjesen redo, dhe sigurohem qe te therras metoden updateArrays()
+per te updatuar display si per elementet e klikueshme ne undo dhe ne redo.
+
+Drag and drop
+dragStartHandler() dragOverHandler() dhe dropHandle() jane 3 funksionet qe ekzekutohen kur ndodhin event-et si: dragstart, dragover dhe drop.
+dragStartHandler
+Fillimisht duhet qe elementet e undoDiv dhe redoDiv ti bej draggable, perderisa une keta elemente i gjeneroj ne js 
+dhe nuk i kam statik ne hmtl qe te mund te vendos atributin draggable=true, une perdor funksionin
+setAttribute("draggable" , "true") brenda forEach(), per ta vendosur kete atribut per secilin element te vektoreve.
+per cdo element draggable duhet te vendos eventListener, pra ne momentin qe ndodh eventi "dragStart" , une therras metoden dragStartHandler, qe ben te mundur qe secili 
+nga keta elemente te behet drag. tek kjo metode percaktoj nese elementi qe bej dragged eshte nga "undo" apo nga "redo" container, duke marre prindin e event.target ku event.target eshte elemnti qe me shkaktoi
+eventin dragstart, ME pas me duhet edhe indeksi i ketij event.target duke marre prindin e atij qe me shkaktoi eventin dragstart, prindi do jete containeri,
+listoj femijet e containerit qe jane elementet dhe gjej indeksin e atij qe me shkaktoi eventin.
+dhe e ruaj. Krijoj nje stirng me indexin dhe containerin burim dhe e vendos si data tek dataTransfer object per ta perdorur gjate drop event
+ky object ruan string-a dhe jo objekte js.
+
+dragOverHandler
+lejon qe eventi drag te ndodhe, duke bere preventDefault()
+
+dropHandle
+Kjo metode thirret kur dragged element behet dropped.
+dropHandle menaxhon eventin drop ne rastin tim duhet te realizoj drop and drag brenda divit undo ose redo
+dhe drag and drop midis ketyre 2 div-eve, kjo metode gjithashtu ben update vektoret.
+Marr te dhenat nga data dhe i bej split tek karakteri "," . MEtoda split kthen vektor prandaj 
+elementi[0] eshte indexi dhe elementi[1] eshte sourceContaineri qe i inicializova tek dragStart.
+Nepermjet ternary operator une kontrolloj nese targetContainer pra containeri ku dua te bej drop, eshte undo apo redo
+Pervec targetContainer me duhet edhe targetIndex, qe tregon indexin ku elementi do behet dropped
+branda targetContainer. Ketu perdor event.currentTarget qe me jep elemntin qe ky event lidhet, ndersa
+event.target me jep elementin qe e trigeroi ate event.
+me if , else if, else une kontrolloj nese do bej drop nga undo ne redo, drop nga redo ne undo 
+apo drop brenda te njejtit div, dhe ne baze se cili kusht plotesohet i jap vlere
+sourceArray dhe targetArray qe do me duhen per te bere levizjen e elementeve.
+ME pas une heq elementin qe bej drag nga vektori source dhe e shtoj ate element
+tek vektori target tek pozicioni target. heqjen dhe shtimin e bej me splice() metode e array ne js qe ben shtim, heqje, ose replace te 
+elementeve ne nje array. si fillim me duhet te heq ngavektori source elementin qe bej drag  dhe e ruaj tek color qe eshte nje vektor, 
+pasi splice kthen nje vektor. PEr te aksesuar elementin qe hoqa perdor color[0]. Ky element duhet te shtohet tek vektori target 
+perseri me splice ku tani nepermjet argumentit 0 i percaktoj se nuk do fshije asnje element, por do shtoje.
+Dhe therras metoden updateArray() qe me afishon elementet per undo dhe redo[]
+ne html, qe cdo afishim te jete koherent me ate qe po ndodh.
 
 
 
