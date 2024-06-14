@@ -78,7 +78,7 @@ function updateArrays() {
       (color, index) =>
         `<div class="undo-color" style="background-color: ${color};">${index} ${color}</div>`
     )
-    .join("");
+    .join("");  //returns array to string
   redoDiv.innerHTML = redo
     .map(
       (color, index) =>
@@ -99,10 +99,10 @@ function updateArrays() {
       redo.push(actualColor);
       // Remove the clicked color from the undo
       undo.splice(index, 1);
-      // Move colors below the selected one to the redo
-      for (let i = undo.length - 1; i >= index; i--) {
-        redo.push(undo.pop());
-      }
+      // // Move colors below the selected one to the redo
+      // for (let i = undo.length - 1; i >= index; i--) {
+      //   redo.push(undo.pop());
+      // }
 
       updateArrays();
     });
@@ -122,10 +122,10 @@ function updateArrays() {
       // Remove the clicked color from the redo
       redo.splice(index, 1);
 
-      // Move colors below the selected one to the undo
-      for (let i = redo.length - 1; i >= index; i--) {
-        undo.push(redo.pop());
-      }
+      // // Move colors below the selected one to the undo
+      // for (let i = redo.length - 1; i >= index; i--) {
+      //   undo.push(redo.pop());
+      // }
       updateArrays();
     });
 
@@ -164,9 +164,13 @@ function dropHandler(event) {
   const sourceContainer = dataParts[1];
 
   const targetContainer = event.currentTarget === undoDiv ? "undo" : "redo";
-  const targetIndex = Array.from(event.currentTarget.children).indexOf(
-    event.target
-  );
+  let targetIndex = Array.from(event.currentTarget.children).indexOf(event.target);
+
+  // append to the end
+  // i check with -1 because the drop target is not an existing child if i want to append in the end
+  if (targetIndex === -1) {
+    targetIndex = event.currentTarget.children.length;
+  }
 
   let sourceArray, targetArray;
 

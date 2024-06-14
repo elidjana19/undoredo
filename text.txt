@@ -85,5 +85,7 @@ perseri me splice ku tani nepermjet argumentit 0 i percaktoj se nuk do fshije as
 Dhe therras metoden updateArray() qe me afishon elementet per undo dhe redo[]
 ne html, qe cdo afishim te jete koherent me ate qe po ndodh.
 
-
-
++push at end
+Per tu siguruar qe mund te shtoj edhe ne fund te divit, une duhet qe te kontorlloj vleren e targetIndex, sepse targetndex me jep indexin qe une dua te bej drop
+pra vendin e kujt elementi ekzistues dua te kap, nese targetIndex eshte -1 do te thote qe nuk dua te kap vendin e asnje elementi ekzistues dhe shtimi behet ne fund te vektorit.
+targetArray.splice(0, 0, color);=> shton ne fund.
